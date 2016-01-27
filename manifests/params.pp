@@ -258,12 +258,13 @@ class postgresql::params inherits postgresql::globals {
     }
   }
 
-  $validcon_script_path = pick($validcon_script_path, '/usr/local/bin/validate_postgresql_connection.sh')
-  $initdb_path          = pick($initdb_path, "${bindir}/initdb")
-  $pg_hba_conf_path     = pick($pg_hba_conf_path, "${confdir}/pg_hba.conf")
-  $pg_hba_conf_defaults = pick($pg_hba_conf_defaults, true)
-  $pg_ident_conf_path   = pick($pg_ident_conf_path, "${confdir}/pg_ident.conf")
-  $postgresql_conf_path = pick($postgresql_conf_path, "${confdir}/postgresql.conf")
-  $recovery_conf_path   = pick($recovery_conf_path, "${datadir}/recovery.conf")
-  $default_database     = pick($default_database, 'postgres')
+  $validcon_script_path     = pick($validcon_script_path, '/usr/local/bin/validate_postgresql_connection.sh')
+  $initdb_path              = pick($initdb_path, "${bindir}/initdb")
+  $pg_hba_conf_path         = pick($pg_hba_conf_path, "${confdir}/pg_hba.conf")
+  $pg_hba_conf_defaults     = pick($pg_hba_conf_defaults, true)
+  $pg_ident_conf_path       = pick($pg_ident_conf_path, "${confdir}/pg_ident.conf")
+  $postgresql_conf_path     = pick($postgresql_conf_path, "${confdir}/postgresql.conf")
+  $recovery_conf_path       = pick($recovery_conf_path, "${datadir}/recovery.conf")
+  $default_database         = pick($default_database, 'postgres')
+  $default_connect_settings = pick($default_connect_settings, {})
 }

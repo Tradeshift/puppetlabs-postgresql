@@ -51,6 +51,7 @@ class postgresql::server (
   $manage_pg_hba_conf         = $postgresql::params::manage_pg_hba_conf,
   $manage_pg_ident_conf       = $postgresql::params::manage_pg_ident_conf,
   $manage_recovery_conf       = $postgresql::params::manage_recovery_conf,
+  $default_connect_settings   = $postgresql::params::default_connect_settings,
 
   #Deprecated
   $version                    = undef,

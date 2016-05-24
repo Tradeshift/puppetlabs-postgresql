@@ -7,6 +7,7 @@ define postgresql::server::role(
   $port             = undef,
   $login            = true,
   $inherit          = true,
+  $in_role          = undef,
   $superuser        = false,
   $replication      = false,
   $connection_limit = '-1',
@@ -117,6 +118,13 @@ define postgresql::server::role(
       command     => "ALTER ROLE \"${username}\" ${password_sql}",
       unless      => "SELECT usename FROM pg_shadow WHERE usename='${username}' and passwd='${pwd_hash_sql}'",
       environment => $environment,
+    }
+  }
+
+  if $in_role != undef {
+    postgresql_psql { "GRANT ${in_role} TO ${username}":
+      command     => "GRANT \"${in_role}\" TO \"${username}\"",
+      unless      => "SELECT roleid,member FROM pg_auth_members WHERE member=(SELECT oid FROM pg_roles WHERE rolname='${username}') AND roleid=(SELECT oid FROM pg_roles WHERE rolname='${in_role}')",
     }
   }
 }

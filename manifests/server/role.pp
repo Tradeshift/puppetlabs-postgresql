@@ -44,6 +44,23 @@ define postgresql::server::role (
   Enum['present', 'absent']                           $ensure           = 'present',
   Optional[Enum['md5', 'scram-sha-256']]              $hash             = undef,
   Optional[Variant[String[1], Integer]]               $salt             = undef,
+# Define for creating a database role. See README.md for more information
+define postgresql::server::role(
+  $update_password = true,
+  $password_hash    = false,
+  $createdb         = false,
+  $createrole       = false,
+  $db               = $postgresql::server::default_database,
+  $port             = undef,
+  $login            = true,
+  $inherit          = true,
+  $in_role          = undef,
+  $superuser        = false,
+  $replication      = false,
+  $connection_limit = '-1',
+  $username         = $title,
+  $connect_settings = $postgresql::server::default_connect_settings,
+  Enum['present', 'absent'] $ensure = 'present',
 ) {
   $password_hash_unsensitive = if $password_hash =~ Sensitive[String] {
     $password_hash.unwrap
@@ -203,6 +220,13 @@ define postgresql::server::role (
     postgresql_psql { "DROP ROLE \"${username}\"":
       onlyif  => "SELECT 1 FROM pg_roles WHERE rolname = '${username}'",
       require => undef,
+    }
+  }
+
+  if $in_role != undef {
+    postgresql_psql { "GRANT ${in_role} TO ${username}":
+      command     => "GRANT \"${in_role}\" TO \"${username}\"",
+      unless      => "SELECT roleid,member FROM pg_auth_members WHERE member=(SELECT oid FROM pg_roles WHERE rolname='${username}') AND roleid=(SELECT oid FROM pg_roles WHERE rolname='${in_role}')",
     }
   }
 }

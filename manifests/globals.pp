@@ -27,7 +27,7 @@ class postgresql::globals (
   $pg_ident_conf_path       = undef,
   $postgresql_conf_path     = undef,
   $recovery_conf_path       = undef,
-  $default_connect_settings = undef,
+  $default_connect_settings = {},
 
   $pg_hba_conf_defaults     = undef,
 
@@ -36,6 +36,7 @@ class postgresql::globals (
   $bindir                   = undef,
   $xlogdir                  = undef,
   $logdir                   = undef,
+  $log_line_prefix          = undef,
 
   $user                     = undef,
   $group                    = undef,
@@ -60,11 +61,11 @@ class postgresql::globals (
   $default_version = $::osfamily ? {
     /^(RedHat|Linux)/ => $::operatingsystem ? {
       'Fedora' => $::operatingsystemrelease ? {
-        /^(22)$/ => '9.4',
-        /^(21)$/ => '9.3',
+        /^(22|23)$/    => '9.4',
+        /^(21)$/       => '9.3',
         /^(18|19|20)$/ => '9.2',
-        /^(17)$/ => '9.1',
-        default => undef,
+        /^(17)$/       => '9.1',
+        default        => undef,
       },
       'Amazon' => '9.2',
       default => $::operatingsystemrelease ? {
@@ -88,12 +89,11 @@ class postgresql::globals (
         default => undef,
       },
       'Ubuntu' => $::operatingsystemrelease ? {
-        /^(15.10)$/ => '9.4',
-        /^(15.04)$/ => '9.4',
-        /^(14.10)$/ => '9.4',
-        /^(14.04)$/ => '9.3',
-        /^(11.10|12.04|12.10|13.04|13.10)$/ => '9.1',
         /^(10.04|10.10|11.04)$/ => '8.4',
+        /^(11.10|12.04|12.10|13.04|13.10)$/ => '9.1',
+        /^(14.04)$/ => '9.3',
+        /^(14.10|15.04|15.10)$/ => '9.4',
+        /^(16.04)$/ => '9.5',
         default => undef,
       },
       default => undef,
@@ -132,8 +132,9 @@ class postgresql::globals (
     '91'    => '1.5',
     '9.2'   => '2.0',
     '9.3'   => '2.1',
-    '9.4'   => '2.1',
     '93'    => '2.1',
+    '9.4'   => '2.1',
+    '9.5'   => '2.2',
     default => undef,
   }
   $globals_postgis_version = $postgis_version ? {

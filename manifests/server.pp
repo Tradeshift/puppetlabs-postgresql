@@ -18,7 +18,7 @@ class postgresql::server (
   $service_reload             = $postgresql::params::service_reload,
   $service_status             = $postgresql::params::service_status,
   $default_database           = $postgresql::params::default_database,
-
+  $default_connect_settings   = $postgresql::globals::default_connect_settings,
   $listen_addresses           = $postgresql::params::listen_addresses,
   $port                       = $postgresql::params::port,
   $ip_mask_deny_postgres_user = $postgresql::params::ip_mask_deny_postgres_user,
@@ -37,6 +37,8 @@ class postgresql::server (
   $datadir                    = $postgresql::params::datadir,
   $xlogdir                    = $postgresql::params::xlogdir,
   $logdir                     = $postgresql::params::logdir,
+
+  $log_line_prefix            = $postgresql::params::log_line_prefix,
 
   $pg_hba_conf_defaults       = $postgresql::params::pg_hba_conf_defaults,
 

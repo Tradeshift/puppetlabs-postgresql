@@ -142,7 +142,7 @@ class postgresql::params inherits postgresql::globals {
       $client_package_name    = pick($client_package_name, "postgresql-client-${version}")
       $server_package_name    = pick($server_package_name, "postgresql-${version}")
       $contrib_package_name   = pick($contrib_package_name, "postgresql-contrib-${version}")
-      if $postgis_version and versioncmp($postgis_version, '2') < 0 {
+      if is_string($postgis_version) and versioncmp($postgis_version, '2') < 0 {
         $postgis_package_name = pick($postgis_package_name, "postgresql-${version}-postgis")
       } else {
         $postgis_package_name = pick($postgis_package_name, "postgresql-${version}-postgis-${postgis_version}")

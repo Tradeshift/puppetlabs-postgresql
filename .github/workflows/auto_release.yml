@@ -30,7 +30,7 @@ jobs:
 
     - name: "Checkout Source"
       if: ${{ github.repository_owner == 'puppetlabs' }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 0
         persist-credentials: false

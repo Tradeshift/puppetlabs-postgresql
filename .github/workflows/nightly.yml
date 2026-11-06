@@ -36,7 +36,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       if: ${{ github.repository_owner == 'puppetlabs' }}
       with:
-        ruby-version: "2.7"
+        ruby-version: "4.0"
         bundler-cache: true
 
     - name: Print bundle environment
@@ -107,7 +107,7 @@ jobs:
     - name: Activate Ruby 2.7
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: "2.7"
+        ruby-version: "4.0"
         bundler-cache: true
 
     - name: Print bundle environment
